@@ -14,64 +14,54 @@ import io.reactivex.schedulers.Schedulers;
 
 public class NoteRepository {
     private MutableLiveData<List<Note>> noteListMutableLiveData = new MutableLiveData<>();
-    private NoteDatabase noteDatabase;
+    private NoteDao noteDao;
 
-    private static NoteRepository noteRepository;
-    public static NoteRepository getInstance() {
-        if (noteRepository != null) {
-            noteRepository = new NoteRepository();
-        }
-        return noteRepository;
-    }
-
-    public void setNoteDatabase(Application application){
-        this.noteDatabase = NoteDatabase.getInstance(application);
+    public NoteRepository(Application application) {
+        NoteDatabase noteDatabase = NoteDatabase.getInstance(application);
+        noteDao = noteDatabase.noteDao();
     }
 
     public MutableLiveData<List<Note>> retrieveAllNotes() {
+        getAllNotes();
         return noteListMutableLiveData;
     }
 
     @SuppressLint("CheckResult")
-    private void getAllNotes(){
-        noteDatabase.noteDao()
-                .retrieveAllNotes()
+    private void getAllNotes() {
+        noteDao.retrieveAllNotes()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<Note>>() {
                     @Override
-                    public void accept(List<Note> notes){
-                         noteListMutableLiveData.setValue(notes);
+                    public void accept(List<Note> notes) {
+                        noteListMutableLiveData.setValue(notes);
                     }
                 });
     }
 
     public void insertNote(Note note) {
-        noteDatabase.noteDao()
-                .insertNote(note)
+        noteDao.insertNote(note)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();
     }
 
-    public void deleteNote(Note note){
-        noteDatabase.noteDao()
-                .deleteNote(note)
+    public void deleteNote(Note note) {
+        noteDao.deleteNote(note)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();
     }
 
-    public void updateNote(Note note){
-        noteDatabase.noteDao()
-                .deleteNote(note)
+    public void updateNote(Note note) {
+        noteDao.deleteNote(note)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();
     }
-    public void deleteAllNotes(){
-        noteDatabase.noteDao()
-                .deleteAllNotes()
+
+    public void deleteAllNotes() {
+        noteDao.deleteAllNotes()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();

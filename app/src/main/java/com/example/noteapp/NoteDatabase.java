@@ -15,9 +15,9 @@ public abstract class NoteDatabase extends RoomDatabase {
     public abstract NoteDao noteDao();
 
     //synchronized means that only one thread at a time can access this method
-    public static synchronized NoteDatabase getInstance(Application application) {
-        if (instance != null) {
-            instance = Room.databaseBuilder(application,
+    public static synchronized NoteDatabase getInstance(Context context) {
+        if (instance == null) {
+            instance = Room.databaseBuilder(context.getApplicationContext(),
                     NoteDatabase.class, "note_database")
                     .fallbackToDestructiveMigration()//this delete all tables and create them again when database version change
                     .build();
