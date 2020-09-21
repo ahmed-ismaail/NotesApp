@@ -10,7 +10,6 @@ import androidx.room.Update;
 import java.util.List;
 
 import io.reactivex.Completable;
-import io.reactivex.Single;
 
 @Dao
 public interface NoteDao {
@@ -28,5 +27,5 @@ public interface NoteDao {
     Completable deleteAllNotes();
 
     @Query("Select * From note_table")
-    Single<List<Note>> retrieveAllNotes();
+    LiveData<List<Note>> retrieveAllNotes();
 }

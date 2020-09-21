@@ -42,7 +42,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         notifyDataSetChanged();
     }
 
-    public class NoteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public Note getNoteAt(int position){
+        return notes.get(position);
+    }
+
+    public class NoteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView titleTextView;
         OnItemClickListener onItemClickListener;
 

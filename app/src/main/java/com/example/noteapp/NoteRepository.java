@@ -1,42 +1,36 @@
 package com.example.noteapp;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
-import android.content.Context;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class NoteRepository {
-    private MutableLiveData<List<Note>> noteListMutableLiveData = new MutableLiveData<>();
+    public LiveData<List<Note>> noteList;
     private NoteDao noteDao;
 
     public NoteRepository(Application application) {
         NoteDatabase noteDatabase = NoteDatabase.getInstance(application);
         noteDao = noteDatabase.noteDao();
+        noteList = noteDao.retrieveAllNotes();
     }
 
-    public MutableLiveData<List<Note>> retrieveAllNotes() {
-        getAllNotes();
-        return noteListMutableLiveData;
-    }
-
-    @SuppressLint("CheckResult")
-    private void getAllNotes() {
-        noteDao.retrieveAllNotes()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<Note>>() {
-                    @Override
-                    public void accept(List<Note> notes) {
-                        noteListMutableLiveData.setValue(notes);
-                    }
-                });
+    public LiveData<List<Note>> getAllNotes() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                noteList = noteDao.retrieveAllNotes();
+            }
+        }).start();
+        return noteList;
     }
 
     public void insertNote(Note note) {

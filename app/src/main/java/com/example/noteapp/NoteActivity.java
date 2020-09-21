@@ -44,7 +44,7 @@ public class NoteActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.save_menu_item, menu);
+        getMenuInflater().inflate(R.menu.menu_item_save, menu);
         return true;
     }
 
@@ -101,15 +101,13 @@ public class NoteActivity extends AppCompatActivity {
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        setNote();
-                        NavUtils.navigateUpFromSameTask(NoteActivity.this);
+                        saveNote();
                     }
                 })
                 .setNegativeButton("Discard", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
-                        NavUtils.navigateUpFromSameTask(NoteActivity.this);
                     }
                 })
                 .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
