@@ -54,7 +54,7 @@ public class NoteRepository {
     }
 
     public void updateNote(Note note) {
-        noteDao.deleteNote(note)
+        noteDao.updateNote(note)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();

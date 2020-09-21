@@ -14,24 +14,22 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NoteAdapter.OnItemClickListener {
 
-    private NotesViewModel notesViewModel;
-    private FloatingActionButton floatingActionButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        floatingActionButton = findViewById(R.id.fab);
+        FloatingActionButton floatingActionButton = findViewById(R.id.fab);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        final NoteAdapter noteAdapter = new NoteAdapter();
+        final NoteAdapter noteAdapter = new NoteAdapter(this);
         recyclerView.setAdapter(noteAdapter);
 
-        notesViewModel = new ViewModelProvider(MainActivity.this).get(NotesViewModel.class);
+        NotesViewModel notesViewModel = new ViewModelProvider(MainActivity.this).get(NotesViewModel.class);
         notesViewModel.getAllNotes();
 
         notesViewModel.noteListMutableLiveData.observe(this, new Observer<List<Note>>() {
@@ -48,5 +46,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onClickListener(Note note) {
+        Intent intent = new Intent(MainActivity.this,NoteActivity.class);
+        //note here is Serializable
+        //To serialize an object means to convert its state to a byte stream
+        //so that the byte stream can be reverted back into a copy of the object
+        intent.putExtra("noteObject", note);
+        startActivity(intent);
     }
 }
