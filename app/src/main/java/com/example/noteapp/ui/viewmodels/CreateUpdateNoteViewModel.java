@@ -1,9 +1,12 @@
-package com.example.noteapp;
+package com.example.noteapp.ui.viewmodels;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+
+import com.example.noteapp.model.Note;
+import com.example.noteapp.model.NoteRepository;
 
 public class CreateUpdateNoteViewModel extends AndroidViewModel {
     private NoteRepository repository;

@@ -5,4 +5,5 @@
     <string name="enter_your_notes_here">Enter your notes here</string>
     <string name="note">Note</string>
     <string name="delete_all_notes">Delete_All_Notes</string>
+    <string name="date">date</string>
 </resources>

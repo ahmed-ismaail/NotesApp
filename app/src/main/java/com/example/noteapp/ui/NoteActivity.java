@@ -1,4 +1,4 @@
-package com.example.noteapp;
+package com.example.noteapp.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,6 +14,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.example.noteapp.model.Note;
+import com.example.noteapp.utils.NotesDate;
+import com.example.noteapp.R;
+import com.example.noteapp.ui.viewmodels.CreateUpdateNoteViewModel;
 
 public class NoteActivity extends AppCompatActivity {
 
@@ -60,16 +65,16 @@ public class NoteActivity extends AppCompatActivity {
     public void saveNote() {
         String title = titleEditText.getText().toString();
         String noteDescription = notesDescriptionEditText.getText().toString();
+        String timestamp = NotesDate.getCurrentTimeStamp();
 
         if (title.isEmpty() || noteDescription.isEmpty()) {
             emptyFieldsAlertDialog().show();
-        }
-        else if (note != null) {//update
+        } else if (note != null) {//update
             setNote();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         } else {//add
-            createUpdateNoteViewModel.insertNote(new Note(title, noteDescription));
+            createUpdateNoteViewModel.insertNote(new Note(title, noteDescription, timestamp));
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
@@ -97,7 +102,7 @@ public class NoteActivity extends AppCompatActivity {
 
     public Dialog unsavedChangesAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Do you want save changes?")
+        builder.setMessage("Do you want to save changes?")
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -108,6 +113,7 @@ public class NoteActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
+                        NavUtils.navigateUpFromSameTask(NoteActivity.this);
                     }
                 })
                 .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
@@ -121,6 +127,12 @@ public class NoteActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        unsavedChangesAlertDialog().show();
+        String title = titleEditText.getText().toString();
+        String noteDescription = notesDescriptionEditText.getText().toString();
+        if (title.isEmpty() || noteDescription.isEmpty()) {
+            emptyFieldsAlertDialog().show();
+        } else {
+            unsavedChangesAlertDialog().show();
+        }
     }
 }

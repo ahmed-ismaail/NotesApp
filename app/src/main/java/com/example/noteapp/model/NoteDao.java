@@ -1,4 +1,4 @@
-package com.example.noteapp;
+package com.example.noteapp.model;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

@@ -1,4 +1,4 @@
-package com.example.noteapp;
+package com.example.noteapp.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,11 +14,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.noteapp.model.Note;
+import com.example.noteapp.R;
+import com.example.noteapp.ui.viewmodels.NotesViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -97,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnIte
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.delete_all_notes) {
             notesViewModel.deleteAllNotes();
+            Toast.makeText(this,"all notes deleted",Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -1,4 +1,4 @@
-package com.example.noteapp;
+package com.example.noteapp.model;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -16,9 +16,12 @@ public class Note implements Serializable {
 
     private String description;
 
-    public Note(String title, String description) {
+    private String timeStamp;
+
+    public Note(String title, String description, String timeStamp) {
         this.title = title;
         this.description = description;
+        this.timeStamp = timeStamp;
     }
 
     public int getId() {
@@ -43,5 +46,13 @@ public class Note implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
     }
 }

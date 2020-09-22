@@ -1,9 +1,12 @@
-package com.example.noteapp;
+package com.example.noteapp.ui.viewmodels;
 
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
+import com.example.noteapp.model.Note;
+import com.example.noteapp.model.NoteRepository;
 
 import java.util.List;
 
